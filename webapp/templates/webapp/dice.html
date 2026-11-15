@@ -1,0 +1,124 @@
+<style>
+
+.dice-roll {
+
+    animation: roll 0.8s ease-in-out;
+
+}
+
+@keyframes roll {
+
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    25% {
+        transform: rotate(180deg) scale(1.2);
+    }
+
+    50% {
+        transform: rotate(360deg) scale(0.9);
+    }
+
+    75% {
+        transform: rotate(540deg) scale(1.2);
+    }
+
+    100% {
+        transform: rotate(720deg) scale(1);
+    }
+
+}
+
+</style>
+
+<script>
+
+function spinDice() {
+
+    document.getElementById("dice1")
+        .classList.add("spin")
+
+    document.getElementById("dice2")
+        .classList.add("spin")
+
+}
+
+function rollAnimation(event) {
+
+    event.preventDefault();
+
+    const dice1 =
+        document.getElementById("dice1");
+
+    const dice2 =
+        document.getElementById("dice2");
+
+    dice1.classList.add("dice-roll");
+    dice2.classList.add("dice-roll");
+
+    let count = 0;
+
+    const interval = setInterval(() => {
+
+        dice1.src =
+            `/static/webapp/dices/${Math.floor(Math.random()*6)+1}_dice.png`;
+
+        dice2.src =
+            `/static/webapp/dices/${Math.floor(Math.random()*6)+1}_dice.png`;
+
+        count++;
+
+        if (count > 10) {
+
+            clearInterval(interval);
+
+            window.location.href =
+                "{% url 'roll_dice' %}";
+
+        }
+
+    }, 80);
+
+}
+
+</script>
+
+{% load static %}
+
+<h1>DICE</h1>
+
+<h2>{{ message }}</h2>
+
+{% if dice_set %}
+    <h3>Your Set: {{ dice_set }}</h3>
+{% endif %}
+
+<div>
+
+    <img
+    id="dice1"
+    src="{% static 'webapp/dices/' %}{{ dice1 }}_dice.png"
+    width="150"
+>
+
+<img
+    id="dice2"
+    src="{% static 'webapp/dices/' %}{{ dice2 }}_dice.png"
+    width="150"
+>
+</div>
+
+<br>
+
+{% if not game_over %}
+
+<button onclick="rollAnimation(event)">
+    🎲 ROLL DICE
+</button>
+
+{% endif %}
+
+<a href="{% url 'reset_dice' %}">
+    <button>NEW GAME</button>
+</a>

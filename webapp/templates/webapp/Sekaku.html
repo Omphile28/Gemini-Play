@@ -1,0 +1,55 @@
+
+
+{% load static %}
+
+<h1>SEKAKU</h1>
+
+
+<h2>Deck Piles</h2>
+
+{% for pile in piles %}
+
+    {% if pile %}
+
+        <a href="{% url 'play_pile' forloop.counter0 %}">
+            <img
+                src="{% static 'webapp/cards/card_back.png' %}"
+                width="120"
+            >
+        </a>
+
+    {% endif %}
+
+{% endfor %}
+
+<h2>Discard Pile</h2>
+
+{% if discard %}
+    <img
+        src="{% static 'webapp/cards/' %}{{ discard }}"
+        width="120"
+    >
+{% endif %}
+
+<h2>Collected Cards</h2>
+
+{% for card in hand %}
+    <img
+        src="{% static 'webapp/cards/' %}{{ card }}"
+        width="80"
+    >
+{% endfor %}
+
+{% if game_over %}
+
+<h2>Game Over</h2>
+
+<p>
+Cards Collected: {{ score }}
+</p>
+
+<a href="{% url 'reset_sekaku' %}">
+    Play Again
+</a>
+
+{% endif %}

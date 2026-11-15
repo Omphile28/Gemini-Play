@@ -1,0 +1,47 @@
+<h1>TOP TEN</h1>
+
+<h2>Current Total: {{ running_total }}</h2>
+{% load static %}
+
+<a href="{% url 'draw_topten' %}">
+    <img
+        src="{% static 'webapp/cards/card_back.png' %}"
+        width="150"
+    >
+</a>
+
+<p>Cards Left: {{ deck_count }}</p>
+
+<hr>
+
+<h2>Playing Area</h2>
+
+{% for card in area %}
+
+<a href="{% url 'select_topten' forloop.counter0 %}">
+    <img
+        src="{% static 'webapp/cards/' %}{{ card }}"
+        width="120"
+    >
+</a>
+
+{% endfor %}
+
+<hr>
+
+<h2>Collected Tens: {{ score }}</h2>
+
+<div style="position: relative; height: 220px;">
+
+{% for card in collection %}
+
+<img
+    src="{% static 'webapp/cards/' %}{{ card }}"
+    width="80"
+    style= "position:absolute; top:{{ forloop.counter0|add:'0' }}px; left:0;
+    z-index:{{ forloop.counter }};"
+>
+
+{% endfor %}
+
+</div>

@@ -1,0 +1,92 @@
+{% load static %}
+
+{% if winner %}
+
+<h1>🎉 YOU WIN 🎉</h1>
+
+<p>Game has been reset.</p>
+
+<a href="{% url 'reset_game' %}">
+    Start New Game
+</a>
+
+{% else %}
+
+<h1>5 Cards</h1>
+
+<h3>Cards Remaining: {{ deck_count }}</h3>
+
+<hr>
+
+<h2>Deck</h2>
+
+<a href="{% url 'draw_from_deck' %}">
+    <img
+        src="{% static 'webapp/cards/card_back.png' %}"
+        width="150"
+    >
+</a>
+
+<hr>
+
+<h2>Discard Pile</h2>
+
+<a href="{% url 'take_discard' %}">
+    <img
+        src="{% static 'webapp/cards/' %}{{ discard_card }}"
+        width="120"
+    >
+</a>
+
+<p>
+    Click discard pile to take card
+</p>
+
+
+<hr>
+
+<h2>Selected Card</h2>
+
+{% if selected_card %}
+
+<img
+    src="{% static 'webapp/cards/' %}{{ selected_card }}"
+    width="120"
+>
+<a href="{% url 'discard_selected' %}">
+    Discard Card
+</a>
+<p>
+    Click a card in your hand to replace it
+</p>
+
+{% else %}
+
+<p>No card selected</p>
+
+{% endif %}
+
+<hr>
+
+<h2>Your Hand</h2>
+
+{% for card in hand %}
+
+<a href="{% url 'replace_card' forloop.counter0 %}">
+
+    <img
+        src="{% static 'webapp/cards/' %}{{ card }}"
+        width="120"
+    >
+
+</a>
+
+{% endfor %}
+
+<hr>
+
+<a href="{% url 'reset_game' %}">
+    Reset Game
+</a>
+
+{% endif %}
